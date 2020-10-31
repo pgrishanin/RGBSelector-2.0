@@ -75,7 +75,7 @@ class ColorSelectorViewController: UIViewController {
     }
     
     @objc private func doneAction() {
-        
+        view.endEditing(true)
     }
     
     private func updateView() {
