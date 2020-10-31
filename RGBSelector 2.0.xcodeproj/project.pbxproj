@@ -9,21 +9,23 @@
 /* Begin PBXBuildFile section */
 		E9D41FEE254D9FC500445D22 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D41FED254D9FC500445D22 /* AppDelegate.swift */; };
 		E9D41FF0254D9FC500445D22 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D41FEF254D9FC500445D22 /* SceneDelegate.swift */; };
-		E9D41FF2254D9FC500445D22 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D41FF1254D9FC500445D22 /* ViewController.swift */; };
 		E9D41FF5254D9FC500445D22 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9D41FF3254D9FC500445D22 /* Main.storyboard */; };
 		E9D41FF7254D9FC600445D22 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9D41FF6254D9FC600445D22 /* Assets.xcassets */; };
 		E9D41FFA254D9FC600445D22 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9D41FF8254D9FC600445D22 /* LaunchScreen.storyboard */; };
+		E9D4200D254DA9DB00445D22 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D4200C254DA9DB00445D22 /* MainViewController.swift */; };
+		E9D42010254DAA1500445D22 /* ColorSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D4200F254DAA1500445D22 /* ColorSelectorViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E9D41FEA254D9FC500445D22 /* RGBSelector 2.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RGBSelector 2.0.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9D41FED254D9FC500445D22 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E9D41FEF254D9FC500445D22 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E9D41FF1254D9FC500445D22 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E9D41FF4254D9FC500445D22 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E9D41FF6254D9FC600445D22 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E9D41FF9254D9FC600445D22 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E9D41FFB254D9FC600445D22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9D4200C254DA9DB00445D22 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		E9D4200F254DAA1500445D22 /* ColorSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectorViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +58,48 @@
 		E9D41FEC254D9FC500445D22 /* RGBSelector 2.0 */ = {
 			isa = PBXGroup;
 			children = (
-				E9D41FED254D9FC500445D22 /* AppDelegate.swift */,
-				E9D41FEF254D9FC500445D22 /* SceneDelegate.swift */,
-				E9D41FF1254D9FC500445D22 /* ViewController.swift */,
-				E9D41FF3254D9FC500445D22 /* Main.storyboard */,
-				E9D41FF6254D9FC600445D22 /* Assets.xcassets */,
-				E9D41FF8254D9FC600445D22 /* LaunchScreen.storyboard */,
-				E9D41FFB254D9FC600445D22 /* Info.plist */,
+				E9D42004254DA06300445D22 /* Supporting Files */,
+				E9D42008254DA1FD00445D22 /* View Controllers */,
+				E9D42007254DA1EA00445D22 /* Storyboards */,
+				E9D42003254DA04A00445D22 /* Resources */,
 			);
 			path = "RGBSelector 2.0";
+			sourceTree = "<group>";
+		};
+		E9D42003254DA04A00445D22 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E9D41FF6254D9FC600445D22 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		E9D42004254DA06300445D22 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E9D41FED254D9FC500445D22 /* AppDelegate.swift */,
+				E9D41FEF254D9FC500445D22 /* SceneDelegate.swift */,
+				E9D41FFB254D9FC600445D22 /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E9D42007254DA1EA00445D22 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				E9D41FF3254D9FC500445D22 /* Main.storyboard */,
+				E9D41FF8254D9FC600445D22 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		E9D42008254DA1FD00445D22 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E9D4200C254DA9DB00445D22 /* MainViewController.swift */,
+				E9D4200F254DAA1500445D22 /* ColorSelectorViewController.swift */,
+			);
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,7 +172,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9D41FF2254D9FC500445D22 /* ViewController.swift in Sources */,
+				E9D4200D254DA9DB00445D22 /* MainViewController.swift in Sources */,
+				E9D42010254DAA1500445D22 /* ColorSelectorViewController.swift in Sources */,
 				E9D41FEE254D9FC500445D22 /* AppDelegate.swift in Sources */,
 				E9D41FF0254D9FC500445D22 /* SceneDelegate.swift in Sources */,
 			);
@@ -288,7 +324,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D9R5UU5A3D;
-				INFOPLIST_FILE = "RGBSelector 2.0/Info.plist";
+				INFOPLIST_FILE = "RGBSelector 2.0/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -307,7 +343,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D9R5UU5A3D;
-				INFOPLIST_FILE = "RGBSelector 2.0/Info.plist";
+				INFOPLIST_FILE = "RGBSelector 2.0/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
