@@ -7,8 +7,10 @@
 
 import UIKit
 
-protocol ColorSelectorViewControllerDelegate {
-    func takeStartColor() -> UIColor
+enum ColorTags: Int {
+    case red = 0
+    case green = 1
+    case blue = 2
 }
 
 class ColorSelectorViewController: UIViewController {
@@ -28,22 +30,18 @@ class ColorSelectorViewController: UIViewController {
     @IBOutlet var blueSlider: UISlider!
     
     var delegate: ColorSelectorViewControllerDelegate!
-    var selectedColor: UIColor? {
-        didSet {
-            updateView()
-        }
-    }
+    var selectedColor: UIColor!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        selectedColor = delegate.takeStartColor()
         
         colorView.layer.cornerRadius = 10
         
         initTextField(redTextField)
         initTextField(greenTextField)
         initTextField(blueTextField)
+        
+        initValues()
     }
     
     @IBAction func sliderChanged(_ sender: UISlider) {
@@ -52,37 +50,44 @@ class ColorSelectorViewController: UIViewController {
             green: CGFloat(greenSlider.value),
             blue: CGFloat(blueSlider.value),
             alpha: 1)
-    }
-    
-    @IBAction func textFieldChanged(_ sender: UITextField) {
-        if let text = sender.text {
-            if let doubleValue = Double(text) {
-                if doubleValue  > 1 {
-                    sender.text = "1.00"
-                }
-            } else {
-                sender.text = "0.00"
-            }
-        }else {
-            sender.text = "0.00"
-        }
         
-        selectedColor = UIColor(
-            red: CGFloat(Double(redTextField.text ?? "") ?? 0),
-            green: CGFloat(Double(greenTextField.text ?? "") ?? 0),
-            blue: CGFloat(Double(blueTextField.text ?? "") ?? 0),
-            alpha: 1)
+        updateView()
+        updateLabelBy(tag: sender.tag, with: sender.value)
+        updateTextFieldBy(tag: sender.tag, with: sender.value)
     }
     
-    @objc private func doneAction() {
+//    @IBAction func textFieldChanged(_ sender: UITextField) {
+//        var floatValue: Float = 0
+//        
+//        if let text = sender.text {
+//            if let parsedValue = Float(text) {
+//                floatValue = parsedValue > 1 ? 1 : parsedValue
+//            }
+//        }
+//
+//        selectedColor = UIColor(
+//            red: CGFloat(Float(redTextField.text ?? "") ?? 0),
+//            green: CGFloat(Float(greenTextField.text ?? "") ?? 0),
+//            blue: CGFloat(Float(blueTextField.text ?? "") ?? 0),
+//            alpha: 1
+//        )
+//
+//        updateView()
+//        updateLabelBy(tag: sender.tag, with: floatValue)
+//        updateSliderBy(tag: sender.tag, with: floatValue)
+//        updateTextFieldBy(tag: sender.tag, with: floatValue)
+//    }
+    
+    @IBAction func doneAction(_ sender: UIButton) {
+        delegate.setColor(selectedColor)
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func keyboardDoneAction() {
         view.endEditing(true)
     }
     
-    private func updateView() {
-        guard isViewLoaded else { return }
-        
-        colorView.backgroundColor = selectedColor
-        
+    private func initValues() {
         var (red, green, blue, alpha): (CGFloat, CGFloat, CGFloat, CGFloat)
             = (0, 0, 0, 0)
         selectedColor?.getRed(
@@ -92,21 +97,28 @@ class ColorSelectorViewController: UIViewController {
             alpha: &alpha
         )
         
-        redSlider.value = Float(red)
-        greenSlider.value = Float(green)
-        blueSlider.value = Float(blue)
+        let floatRed = Float(red)
+        let floatGreen = Float(green)
+        let floatBlue = Float(blue)
         
-        redTextField.text = String(format: "%.2f", red)
-        greenTextField.text = String(format: "%.2f", green)
-        blueTextField.text = String(format: "%.2f", blue)
+        updateView()
         
-        redLabel.text = String(format: "%.2f", red)
-        greenLabel.text = String(format: "%.2f", green)
-        blueLabel.text = String(format: "%.2f", blue)
+        updateLabelBy(tag: ColorTags.red.rawValue, with: floatRed)
+        updateSliderBy(tag: ColorTags.red.rawValue, with: floatRed)
+        updateTextFieldBy(tag: ColorTags.red.rawValue, with: floatRed)
+
+        updateLabelBy(tag: ColorTags.green.rawValue, with: floatGreen)
+        updateSliderBy(tag: ColorTags.green.rawValue, with: floatGreen)
+        updateTextFieldBy(tag: ColorTags.green.rawValue, with: floatGreen)
+
+        updateLabelBy(tag: ColorTags.blue.rawValue, with: floatBlue)
+        updateSliderBy(tag: ColorTags.blue.rawValue, with: floatBlue)
+        updateTextFieldBy(tag: ColorTags.blue.rawValue, with: floatBlue)
     }
 
     private func initTextField(_ textField: UITextField) {
         textField.keyboardType = .decimalPad
+        textField.delegate = self
         
         let doneToolbar = UIToolbar(
             frame: CGRect.init(
@@ -127,7 +139,7 @@ class ColorSelectorViewController: UIViewController {
             title: "Done",
             style: .done,
             target: self,
-            action: #selector(doneAction)
+            action: #selector(keyboardDoneAction)
         )
 
         doneToolbar.items = [flexSpace, doneButton]
@@ -137,8 +149,85 @@ class ColorSelectorViewController: UIViewController {
     }
 }
 
+// MARK: Updates view elements values
+extension ColorSelectorViewController {
+    
+    private func updateView() {
+        colorView.backgroundColor = selectedColor
+    }
+    
+    private func updateLabelBy(tag: Int, with value: Float) {
+        switch tag {
+        case ColorTags.red.rawValue:
+            redLabel.text = roundedString(from: value)
+        case ColorTags.green.rawValue:
+            greenLabel.text = roundedString(from: value)
+        case ColorTags.blue.rawValue:
+            blueLabel.text = roundedString(from: value)
+        default:
+            break
+        }
+    }
+    
+    private func updateSliderBy(tag: Int, with value: Float) {
+        switch tag {
+        case ColorTags.red.rawValue:
+            redSlider.value = value
+        case ColorTags.green.rawValue:
+            greenSlider.value = value
+        case ColorTags.blue.rawValue:
+            blueSlider.value = value
+        default:
+            break
+        }
+    }
+    
+    private func updateTextFieldBy(tag: Int, with value: Float) {
+        switch tag {
+        case ColorTags.red.rawValue:
+            redTextField.text = roundedString(from: value)
+        case ColorTags.green.rawValue:
+            greenTextField.text = roundedString(from: value)
+        case ColorTags.blue.rawValue:
+            blueTextField.text = roundedString(from: value)
+        default:
+            break
+        }
+    }
+}
+
+// MARK: Helpers
 extension ColorSelectorViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
+    }
+    
+    private func roundedString(from value: Float) -> String {
+        String(format: "%.2f", value)
+    }
+}
+
+extension ColorSelectorViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        var floatValue: Float = 0
+        
+        if let text = textField.text {
+            if let parsedValue = Float(text) {
+                floatValue = parsedValue > 1 ? 1 : parsedValue
+            }
+        }
+        
+        selectedColor = UIColor(
+            red: CGFloat(Float(redTextField.text ?? "") ?? 0),
+            green: CGFloat(Float(greenTextField.text ?? "") ?? 0),
+            blue: CGFloat(Float(blueTextField.text ?? "") ?? 0),
+            alpha: 1
+        )
+        
+        updateView()
+        updateLabelBy(tag: textField.tag, with: floatValue)
+        updateSliderBy(tag: textField.tag, with: floatValue)
+        // update self for correct ronding
+        updateTextFieldBy(tag: textField.tag, with: floatValue)
     }
 }
