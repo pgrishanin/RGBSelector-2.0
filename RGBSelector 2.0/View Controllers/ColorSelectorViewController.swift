@@ -56,28 +56,6 @@ class ColorSelectorViewController: UIViewController {
         updateTextFieldBy(tag: sender.tag, with: sender.value)
     }
     
-//    @IBAction func textFieldChanged(_ sender: UITextField) {
-//        var floatValue: Float = 0
-//        
-//        if let text = sender.text {
-//            if let parsedValue = Float(text) {
-//                floatValue = parsedValue > 1 ? 1 : parsedValue
-//            }
-//        }
-//
-//        selectedColor = UIColor(
-//            red: CGFloat(Float(redTextField.text ?? "") ?? 0),
-//            green: CGFloat(Float(greenTextField.text ?? "") ?? 0),
-//            blue: CGFloat(Float(blueTextField.text ?? "") ?? 0),
-//            alpha: 1
-//        )
-//
-//        updateView()
-//        updateLabelBy(tag: sender.tag, with: floatValue)
-//        updateSliderBy(tag: sender.tag, with: floatValue)
-//        updateTextFieldBy(tag: sender.tag, with: floatValue)
-//    }
-    
     @IBAction func doneAction(_ sender: UIButton) {
         delegate.setColor(selectedColor)
         dismiss(animated: true, completion: nil)
@@ -86,7 +64,10 @@ class ColorSelectorViewController: UIViewController {
     @objc private func keyboardDoneAction() {
         view.endEditing(true)
     }
-    
+}
+
+// MARK: Initializators
+extension ColorSelectorViewController {
     private func initValues() {
         var (red, green, blue, alpha): (CGFloat, CGFloat, CGFloat, CGFloat)
             = (0, 0, 0, 0)
@@ -196,18 +177,12 @@ extension ColorSelectorViewController {
     }
 }
 
-// MARK: Helpers
-extension ColorSelectorViewController {
+// MARK: Text editing
+extension ColorSelectorViewController: UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
     
-    private func roundedString(from value: Float) -> String {
-        String(format: "%.2f", value)
-    }
-}
-
-extension ColorSelectorViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         var floatValue: Float = 0
         
@@ -229,5 +204,12 @@ extension ColorSelectorViewController: UITextFieldDelegate {
         updateSliderBy(tag: textField.tag, with: floatValue)
         // update self for correct ronding
         updateTextFieldBy(tag: textField.tag, with: floatValue)
+    }
+}
+
+// MARK: Helpers
+extension ColorSelectorViewController {
+    private func roundedString(from value: Float) -> String {
+        String(format: "%.2f", value)
     }
 }
